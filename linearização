@@ -1,0 +1,24 @@
+import numpy as np
+import matplotlib.pyplot as plt
+C12=C22=D11=D21=0
+T=[3,6.8,9.1,12.1,15.1,18,21.1,24.1,27,30.1,33.1,36,39.1,42.1,45.1,48.1,50.1]
+V=[27,65,88,119,150,180,211,242,272,304,335,365,399,430,460,492,513]
+C11=len(T)
+for i in range (0,C11,1):
+  plt.plot(T[i],V[i], 'b.')
+  C12=C12+T[i]
+  C22=C22+(T[i]**2)
+  D11=D11+V[i]
+  D21=D21+T[i]*V[i]
+C=np.array([[C11,C12],[C12,C22]])
+detC=np.linalg.det(C)
+A=(D11*C22-C12*D21)/detC
+B=(C11*D21-C12*D11)/detC
+X=np.linspace(0,51)
+plt.xlabel('TEMPERATURA (°C)')
+plt.ylabel('SAÍDA DO LM35 (mV)')
+plt.title('V = {} + {}*T'.format(A,B))
+def Y(X):
+  return A+B*X
+plt.plot(X,Y(X),'r')
+plt.show()
